@@ -1,0 +1,29 @@
+1.Code Execution:
+Use the command "make REP=0" or "make REP=1" to compile and execute the code.
+REP=0 indicates using the Least Recently Used (LRU) replacement strategy; REP=1 indicates using the Random replacement strategy.
+
+2.Variable Setting and Modification:
+The CACHE_SIZE is set to 16 in the code (this can be modified in the message.h file using #define CACHE_SIZE 16).
+The size of a message is fixed at 1024 bytes (this can be modified in the message.h file using #define Message_limit 1024).
+
+3.Cache Design Strategy:
+During this assignment, we tried three different strategies, and the version submitted is the third one, which has the lowest time complexity.
+For the other two implementation strategies, you can find them on my GitHub: [GitHub Link]
+Here, only the cache design strategy used in the current version is described: the cache storage structure is designed as a doubly linked list plus hash.
+The doubly linked list is the structure that actually stores the data in the cache, and it stores data according to the order of cache access.
+The key for the Hash is id % hashsize, and the value is a linked list of LRUNode (to resolve hash collisions).
+
+Time complexity analysis for different operations in the above structure:
+randomReplacement: Approximately O(1), this depends on the design of the hash function and data distribution (we assume the data distribution is uniform, and the randomly generated data is also uniformly distributed).
+lruReplacement: O(1)
+store_msg: O(1)
+retrieve_msg: O(1)
+
+4.Testing Strategy:
+First, use create_msg to generate 20 messages (identifier from 0 to 19) and call store_msg to store them in the cache.
+Then query these 20 messages in sequence (identifier from 0 to 19).
+Based on the above 20 messages, perform 1000 random queries and calculate the cache hit count, miss count, and hit rate.
+
+5.Evaluation:
+The theoretical hit rate is 80%. The hit rate obtained by testing with different page replacement algorithms is also around 80%.
+(In addition, I also output detailed steps on the console, which can be used to verify the correctness of the results.)
